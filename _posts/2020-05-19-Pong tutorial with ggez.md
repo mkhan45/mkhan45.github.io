@@ -235,3 +235,5 @@ You can find the full code so far [on Github here](https://github.com/mkhan45/gg
 If you have any feedback, please email me at mikail.khan45@gmail.com
 
 I'll write Part 2 soon and link it here.
+
+Part 2: https://mkhan45.github.io/2020/05/19/Pong-tutorial-with-ggez-Part-2.html
