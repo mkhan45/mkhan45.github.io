@@ -393,4 +393,6 @@ ___
 
 In the next part, we'll make Pong playable by finishing the update loop.
 
+You can find the updated code for this part [here](https://github.com/mkhan45/ggez-pong-tutorial/tree/master/part2).
+
 I'll link it here when I'm done.
