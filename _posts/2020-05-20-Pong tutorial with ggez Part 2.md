@@ -391,8 +391,7 @@ After adding this, the window size is set and everything is nicely centered.
 
 ___
 
-In the next part, we'll make Pong playable by finishing the update loop.
 
 You can find the updated code for this part [here](https://github.com/mkhan45/ggez-pong-tutorial/tree/master/part2).
 
-I'll link it here when I'm done.
+In the next part, we'll make Pong playable by finishing the update loop. You can find it at [https://mkhan45.github.io/2020/05/21/Pong-tutorial-with-ggez-Part-3.html](https://mkhan45.github.io/2020/05/21/Pong-tutorial-with-ggez-Part-3.html)
