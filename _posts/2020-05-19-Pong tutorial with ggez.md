@@ -236,4 +236,4 @@ If you have any feedback, please email me at mikail.khan45@gmail.com
 
 I'll write Part 2 soon and link it here.
 
-Part 2: [https://mkhan45.github.io/2020/05/20/Pong-tutorial-with-ggez-Part-2.html](https://mkhan45.github.io/2020/05/19/Pong-tutorial-with-ggez-Part-2.html)
+Part 2: [https://mkhan45.github.io/2020/05/20/Pong-tutorial-with-ggez-Part-2.html](https://mkhan45.github.io/2020/05/20/Pong-tutorial-with-ggez-Part-2.html)
