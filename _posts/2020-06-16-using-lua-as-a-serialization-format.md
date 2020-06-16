@@ -6,7 +6,7 @@ The project is written in Rust, so during the year, I'd decided to use the super
 
 It worked out pretty ok and I was happy with the results; serialization/deserialization performance isn't that imporant because the simulation can't handle more than ~1000 bodies, so the files are pretty small. My biggest problem is that there was a lot of unnecessary data serialized and there was a lot of spacing, making it kind of unlegible for humans. I didn't care enough to fix it though.
 
-Recently, I added Lua integration to my rewrite of the mechanics simulator and was really surprised with how easy it was. Initially I'd planned on using Lua only as an alternative to serde/ron serialization just to be more friendly to non-coder users, but given Lua's syntax, you can make input files that are practically markup. 
+Recently, I added Lua integration to my rewrite of the mechanics simulator part of my project and was really surprised with how easy it was. Initially I'd planned on using Lua only as an alternative to serde/ron serialization just to be more friendly to non-coder users, but given Lua's syntax, you can make input files that are practically markup. 
 
 The mechanics simulator rewrite is very incomplete right now so I didn't want to write a serializer yet, but I decided to move my gravity simulator completely to Lua. The results are pretty great.
 
