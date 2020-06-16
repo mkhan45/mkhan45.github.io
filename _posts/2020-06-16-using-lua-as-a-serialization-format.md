@@ -72,3 +72,5 @@ IMO, this is way more human readable/editable than the .ron was.
 ___
 
 As always when user scripting is allowed, this is just the tip of the iceberg. I'm sure that instead of creating a binary star system by hardcoding values, a savvy user could do some math and write a Lua script that could generate an n-star system.
+
+Here's the repo: [https://github.com/mkhan45/gravity-sim-v2](https://github.com/mkhan45/gravity-sim-v2)
