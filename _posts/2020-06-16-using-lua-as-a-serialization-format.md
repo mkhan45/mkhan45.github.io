@@ -1,4 +1,4 @@
-This is somewhat of a followup to [my post on Lua integration](https://mkhan45.github.io/2020/06/12/Lua-integration.html) from a few days ago. 
+This is somewhat of a followup to [my post on Lua integration](https://mkhan45.github.io/2020/06/12/lua-integration.html) from a few days ago. 
 
 As one part of my senior research project this year, I wrote a universal gravitation simulator meant to help learn/teach physics. The goal was for it to be as accessible/useable as possible, so I spent 90% of the time on UI. One of the main features of the project is that you can save and load preset scenarios, for example, a grid of equal mass bodies or a dual star system.
 
