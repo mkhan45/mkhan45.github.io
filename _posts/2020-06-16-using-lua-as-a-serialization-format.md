@@ -74,3 +74,14 @@ ___
 As always when user scripting is allowed, this is just the tip of the iceberg. I'm sure that instead of creating a binary star system by hardcoding values, a savvy user could do some math and write a Lua script that could generate an n-star system.
 
 Here's the repo: [https://github.com/mkhan45/gravity-sim-v2](https://github.com/mkhan45/gravity-sim-v2)
+
+Update 2020-06-16:
+
+[My post](https://news.ycombinator.com/item?id=23539332) got to the front page of HN and got a lot of comments. The main criticism was that using Lua for data is completely insecure. When adding the Lua integration, I did kind of think of security issues, but in general I think it's best to just assume that the scripts are trusted since this doesn't run online and if a student gets scripts from somewhere it's probably a teacher or classmate. If this program gets popular I'll probably have to add something to differentiate trusted scripts from non-trusted ones and I'll have to sandbox things a lot more.
+
+I have, however, added a few basic improvements which I probably should've had from the start:
+- There's a global body limit; even if a script isn't malicious it's easy enough to typo and accidentally add 49302 bodies.
+- There's a memory limit of 256 mb and an instruction limit of 50,000. I got these values kind of arbitrarily so the instruction limit probably should be increased.
+- Scripts are limited to using only the base, table, and math parts of the standard library.
+
+I don't expect these changes to stop an intentionally malicious script but they can't hurt.
