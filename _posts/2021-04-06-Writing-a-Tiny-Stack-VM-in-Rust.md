@@ -690,3 +690,7 @@ fn interpret<'a>(program: Program<'a>) {
 ```
 
 And that's it! Using this VM, you could write pretty much any computation. As an exercise, you could implement user input to add a lot more functionality. You could also try implementing a compiler for this VM. It runs quite quickly since it only supports one type of value.
+
+---
+
+Recently I've made a Twitter account where I'm tweeting a lot about my projects. Consider following me [@fiiissshh](https://twitter.com/fiiissshh).
