@@ -1,3 +1,8 @@
+---
+layout: post
+title: "Writing a Tiny Stack VM in Rust"
+---
+
 A few days ago I wrote a super simple postfix expression evaluator to demonstrate how stacks could be used to a friend. Afterwards, I decided to finally get around to learning how full stack VMs work so I expanded it into a full stack VM for which you could theoretically write a compiler. It turned out to be super concise and pretty fast.
 
 This guide is meant to be supplementary to reading the code of TinyVM: <https://github.com/mkhan45/tinyvm/blob/main/src/main.rs>. If you're familiar with Rust but know nothing about Stack VMs, you should hopefully be able to understand how stack VMs work just by reading the code. Otherwise, this guide can explain some design decisions and give a higher level overview of some steps. To get an idea of what kinds of programs this VM can run, check out the [test files](https://github.com/mkhan45/tinyvm/tree/main/test_files).

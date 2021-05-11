@@ -1,3 +1,8 @@
+---
+layout: post
+title: "From Go to Haskell + Svelte"
+---
+
 This post was originally written for <https://levelup.gitconnected.com/from-go-to-haskell-svelte-1ad5ff4a0520>, and I lazily copy pasted it here so some of the formatting is probably off and the images are removed.
 
 From ReactJS, Vue, and Angular to Golang, ExpressJS, and ASP.NET, there are endless combinations for a frontend and backend framework to use when building a web app. Svelte and Haskell are two of the most unique choices for frontend and backend technologies. Svelte, unlike the ubiquitous ReactJS and many of its competitors, doesn’t use a Virtual DOM (VDOM). Haskell is purely functional, as opposed to the primarily imperative Golang, C#, and Java.
