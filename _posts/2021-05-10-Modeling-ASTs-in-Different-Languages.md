@@ -5,11 +5,11 @@ title: "Modeling an AST in Different Languages"
 
 Abstract Syntax Trees (ASTs) are an interesting data structure because their representation varies widely across type systems. While I'm writing about ASTs specifically here, in this post an AST is essentially a proxy for any sort of polymorphic tree. Modeling a polymorphic tree structure is one thing, but traversing said tree often requires a set of mutually recursive functions (or a single pattern matching one) which is also interesting.
 
-Last week I implemented a super simple expression AST in a few different languages: C, C++, Elixir, Haskell, Java, Python, Rust, Scala, and Zig. The two outliers here are Python and Elixir; because they're not statically typed, the implementation is a lot less interesting, although I really like the Elixir implementation to be honest. You can find the repo here: <https://github.com/mkhan45/expr_eval>.
+Last week I implemented a super simple expression AST in a few different languages: C, C++, Elixir, Haskell, Java, Python, Rust, Scala, and Zig. You can find the repo here: <https://github.com/mkhan45/expr_eval>.
 
 ___
 
-In general, the implementation was more idiomatic in functional languages; the following Haskell explains itself to anyone who knows Haskell, but it's probably impenetrable to anyone only familiar with imperative languages.
+In general, the implementation was more idiomatic in functional languages; the following Haskell explains itself to any Haskell novice, but it's probably impenetrable to anyone only familiar with imperative languages.
 
 ```hs
 data Op = Add | Sub | Mul | Div
@@ -29,7 +29,7 @@ main = do
     print $ eval (Binary Add (Atomic 3) (Binary Mul (Atomic 2) (Atomic 5)))
 ```
 
-On the other hand, I would assume the following Scala to be pretty understandable to those familiar with OOP but not FP. It's pretty much exactly the same semantically to the Haskell though.
+On the other hand, I would assume the following Scala to be pretty understandable to any developer with a bit of OOP knowledge. Despite the syntactical differences, it's almost semantically identical to the Haskell.
 
 ```scala
 abstract class BinOp
@@ -101,7 +101,7 @@ public abstract class Expr {
 }
 ```
 
-Looking at the Java makes it clear why Scala's implementation of sum types is what it is. It carries the usual verbosity of Java but it's easy to work with. Adding a new class and constructor etc. for every new type of node gets old really fast though. 
+Looking at the Java makes it clear why Scala's implementation of sum types uses abstract classes. It carries the usual verbosity of Java but it's relatively easy to work with. Adding a new class and constructor etc. for every new type of node gets old really fast though. 
 
 [The Rust version](https://github.com/mkhan45/expr_eval/blob/main/rust/expr.rs) of the expression evaluator is almost the same as Scala, so I won't include the code here. Because sum types are first class, declaring and traversing the tree are both pretty ergonomic. However, because of the lack of a garbage collector, dealing with references is a lot more verbose and adds a lot of syntactical noise due to either lifetimes or boxes. It's fast though, so let's look at C, C++, and Zig next.
 
@@ -130,7 +130,6 @@ typedef struct expr {
     };
 } expr_t;
 
-
 int eval_binary_expr(const binary_expr_t* expr) {
     switch (expr->op) {
         case Add: return eval_expr(expr->lhs) + eval_expr(expr->rhs);
@@ -154,9 +153,9 @@ int main() {
 }
 ```
 
-This code uses the tagged union pattern to emulate proper sum types. It's pretty easy to reason about although you have to be sure to manage your memory properly.
+This code uses the tagged union pattern to emulate proper sum types. It's pretty easy to reason about although you have to be sure to manage your memory properly. Being able to access the union's data without pattern matching over it is a double edged blade; bad things will happen if you mess it up. In practice this is one of the least impactful safety issues with C.
 
-The Zig version is almost the same except that Zig has some language features to make tagged unions more ergonomic. This makes it visually pretty similar to the Rust version.
+The Zig version is almost the same except that Zig has some language features to make tagged unions more ergonomic. This makes it visually pretty similar to the Rust version even if it is semantically the same as the C version.
 
 ```java
 const std = @import("std");
@@ -217,9 +216,9 @@ This is my first Zig program after Hello World and I was surprised at how much I
 
 Finally, we'll look at C++. C++ being what it is, there are three ways to do this and I'm not sure which would be considered most idiomatic.
 
-The first way is to model it after C using tagged unions. This method has most of the drawbacks of the C implementation, but because of smart pointers it can be significantly safer. This is my preferred way of writing C++, essentially "C with classes" but also smart pointers.
+The first way is to model it after C using tagged unions. This method has most of the drawbacks of the C implementation, but because of smart pointers it can be significantly safer. IMO, this is the best way to do it in C++.
 
-The second way is to model it after Java using abstract classes. Well C++ doesn't actually have abstract classes but it does have virtual methods and inheritance, so it's close enough.
+The second way is to model it after Java using abstract classes. Well C++ doesn't actually have abstract classes but it does have virtual methods and inheritance, so it's close enough. This is how the `clang` compiler models its AST.
 
 ```cpp
 enum BinOp { Add, Sub, Mul, Div };
@@ -274,7 +273,7 @@ int main() {
 
 This code is semantically the same as Java. It's a bit verbose but no worse than Rust. However, it's filled with pitfalls. 
 
-You might've noticed the `throw OhNo {}` in the default implementation of `eval()`. Because C++ doesn't have abstract classes, the base `Expr` class might be instantiated, which is illegal. One way to fix this would be to make `AtomicExpr` the base class but that's not terribly intuitive. Another pitfall here is that method dispatch is pretty tricky in C++. Overridden methods have to be called through a pointer for the override to actually work, so it's easy to write code which mistakenly calls `Expr::eval` which shouldn't actually be callable. It's worth noting that this is essentially how `clang` models expressions.
+You might've noticed the `throw OhNo {}` in the default implementation of `eval()`. Because C++ doesn't have abstract classes, the base `Expr` class might be instantiated, which is illegal. One way to partially fix this would be to make `AtomicExpr` the base class but that's not terribly intuitive. Another pitfall here is that method dispatch is somewhat tricky in C++. Overridden methods have to be called through a pointer for the override to actually work, so it's easy to write code which mistakenly calls `Expr::eval` when `BinaryExpr::eval` or `AtomicExpr::eval` should be called instead.
 
 The final way to implement this program in C++ is using `std::variant`. [`std::variant` is a bad time](https://bitbashing.io/std-visit.html). Here's what it looks like:
 
@@ -337,7 +336,7 @@ int main() {
 }
 ```
 
-Constructing the actual variant structure is pretty easy. Traversing it with `std::visit` is pretty unergonomic. Instead of using a Visitor struct, I could've used templates and dynamic closures, but sum types are clearly not C++'s strength. The error messages when using `std::variant` are kind of incomprehensible.
+Constructing the actual variant structure is pretty easy. Traversing it with `std::visit` is not. Instead of using a Visitor struct, I could've used templates and dynamic closures, but, either way, sum types are clearly not C++'s strength. The error messages when using `std::variant` are difficult to understand.
 
 ___
 
@@ -355,4 +354,4 @@ Then there's `std::variant`, which tries to be as nice as first class some types
 
 Notably, I didn't write about my Python or Elixir implementation. Because they're dynamically typed, it's pretty easy to model a polymorphic tree. The issue is that there's no compile time safety, but that's no different from normal with dynamic languages.
 
-I think it's clear that functional-inspired languages with first class sum types are by far better for modeling ASTs. However, both Scala and Rust have implemented proper algebraic data types into otherwise mostly imperative styles; the only other functional language feature that sum types kind of necessitate is pattern matching, which also fits fairly well into imperative languages. I expect first class sum types in any modern language nowadays. With that said, Zig's alternative works really well. I think it fits Zig in particular since Zig doesn't want to hide any implementation details, and it doesn't try to protect users from *every* pitfall so it makes sense that it's still possible to access a union without checking its type first if you're certain that it contains the data that you want.
+I think it's clear that functional-inspired languages with first class sum types are by far better for modeling ASTs. However, both Scala and Rust have implemented proper algebraic data types into otherwise mostly imperative styles; the only other functional language feature that sum types kind of necessitate is pattern matching, which also fits fairly well into imperative languages. I expect first class sum types in any modern language nowadays. With that said, Zig's alternative works really well. It fits Zig's goal of not hiding implementation details and discards only minimal safety guarantees in order to do so.
